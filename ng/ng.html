@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="chat">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../index.css"/>
+    <script src="angular.min.js"></script>
+    <script src="../rn.js"></script>
+</head>
+
+<script>angular.module('chat', [])
+
+.controller('Form', function($scope) {
+    var form = this;
+
+    form.resetText = function() {
+        this.text = rnText();
+    }
+
+    form.submit = function() {
+        chat.add({
+            name: this.name,
+            text: this.text
+        });
+        this.resetText();
+    }
+
+    form.name = rnWord();
+    form.resetText();
+})
+
+.controller('Chat', function($scope) {
+    var chat = this;
+
+    chat.add = function(post) {
+        chat.list.unshift({
+            author: post.name,
+            text: post.text,
+            date: new Date()
+        });
+        chat.putCache();
+    };
+
+    chat.reset = function() {
+        chat.dropCache();
+        chat.list = [];
+    };
+
+    chat.getCache = function() {
+        chat.list = angular.fromJson(window.localStorage.chat || '[]');
+    }
+
+    chat.putCache = function() {
+        window.localStorage.chat = angular.toJson(chat.list);
+    };
+
+    chat.dropCache = function() {
+        delete window.localStorage.chat;
+    };
+
+    chat.getCache();
+    window.chat = chat; // FIXME!
+})
+
+;</script>
+
+<body>
+
+    <div class="form">
+        <form class="form__control" ng-controller="Form as form" ng-submit="form.submit()">
+            <input class="form__name" value="{{form.name}}" disabled>
+            <textarea class="form__text" rows="5" ng-model="form.text">{{form.text}}</textarea>
+            <button type="submit">write</button>
+        </form>
+    </div>
+
+    <div class="chat" ng-controller="Chat as chat">
+        <button ng-click="chat.reset()">reset chat</button>
+        <div class="message" ng-repeat="message in chat.list">
+            <span class="message__author">{{message.author}}</span>, <span class="message__date">{{message.date}}</span>
+            <div class="message__text">{{message.text}}</div>
+        </div>
+    </div>
+
+</body>
+</html>

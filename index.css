@@ -1,0 +1,65 @@
+body {
+    font: 1em/100% Arial, sans-serif;
+
+    margin: 0;
+    padding: 0;
+}
+
+input, button, textarea {
+    font: inherit;
+}
+
+.form {
+    position: absolute;
+    top: 0;
+    right: 50%;
+    bottom: 0;
+    left: 0;
+
+    background: #999;
+}
+
+.form__control {
+    margin: 0;
+    padding: 1em;
+}
+
+.form__name,
+.form__text {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 1em;
+
+    border: 0;
+    background: #fff;
+}
+
+.chat {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 50%;
+
+    padding: 1em 0;
+
+    overflow: scroll;
+}
+
+.message {
+    margin-top: 1em;
+    padding: 1em;
+
+    background: #ccc;
+}
+
+.message__author {
+    font-size: 80%;
+    font-weight: bold;
+    color: blue;
+}
+
+.message__date {
+    font-size: 80%;
+    color: green;
+}
